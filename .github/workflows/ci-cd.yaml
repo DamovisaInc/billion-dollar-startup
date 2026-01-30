@@ -9,12 +9,18 @@ jobs:
     - name: build app
       run: |
         sleep 12;
-        if (( RANDOM % 2 )); then echo "::error file=app.js,line=101,col=9,endColumn=10,title=APP_FAILURE::Missing semicolon or something who knows"; fi
+        if (( RANDOM % 2 )); then
+          echo "::error file=app.js,line=101,col=9,endColumn=10,title=APP_FAILURE::Missing semicolon or something who knows";
+          exit 1;
+        fi
   
     - name: run tests
       run: |
         sleep 11;
-        if (( RANDOM % 2 )); then echo "::error file=test_everything.js,line=126,col=5,endColumn=17,title=TEST_ERROR::Tests failed"; fi
+        if (( RANDOM % 2 )); then
+          echo "::error file=test_everything.js,line=126,col=5,endColumn=17,title=TEST_ERROR::Tests failed";
+          exit 1;
+        fi
 
   deploy:
     runs-on: ubuntu-latest
@@ -24,3 +30,4 @@ jobs:
       run: |
         sleep 9;
         echo "::error file=deploy.yml,line=10,col=2,endColumn=30,title=DEPLOY_FAILURE::Unable to deploy to azure";
+        exit 1;
